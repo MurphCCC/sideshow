@@ -8,7 +8,18 @@ var defaultConfig = {
         "http://m58cafe.calvarychatt.com/index.php/featured-specials",
     ]
 };
+function isGifName(str) {
+    return str.substring(str.lastIndexOf(".")) === ".gif";
+}
 
+function getGifNameFromParams() {
+    var p = (window.location.search.substring(1) || "=").split("=");
+    var gifName = p[1];
+    if (p[0] === "gif" && isGifName(gifName)) {
+        return gifName;
+    }
+    return null;
+}
 
 function mergeConfiguration() {
     var args = [].slice.call(arguments, 0);
@@ -70,6 +81,13 @@ function nextFrame(iframes, currentIndex) {
     }
     iframes[newIndex].style.display = "block";
     return newIndex;
+}
+
+function startGifMode() {
+    console.log("GIF mode!");
+    var el = document.createElement("div");
+    el.innerHTML = '<div class="fullscreen" style="background-image: url(' + gifName + ')"></div>';
+    document.body.appendChild(el.firstChild);
 }
 
 function startCycleMode() {
